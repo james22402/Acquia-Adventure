@@ -41,6 +41,14 @@ public class Commands {
 		{
 			return true;
 		}
+		else if(cmd.equalsIgnoreCase("equip"))
+		{
+			return true;
+		}
+		else if(cmd.equalsIgnoreCase("drop"))
+		{
+			return true;
+		}
 		else {
 			return false;
 		}
