@@ -75,20 +75,20 @@ public class Runner extends JFrame implements ActionListener
 		textPanel.setVisible(true);
 		textPanel.setBackground(Color.decode("#0f0d63")); // Red
 
-		output = new JTextArea("Welcome to Acquila!");
+		output = new JTextArea("Welcome to Acquia!");
 		// textPanel.setLayout(new BorderLayout());
 		scroll = new JScrollPane(output);
-		scroll.setPreferredSize(new Dimension(600, 100));
+		scroll.setPreferredSize(new Dimension(680, 125));
 		output.setText(
 				"You have nearly finished your code on Eclipse when a wild Apache team member appears and throws an ACME anvil through your Lenovo laptop, before disappearing into the darkness of the hallway. Slightly disappointed you remember that James recently backed up your code to a Sandisk flash drive.  Encouraged, you plug the drive into an Asus chromebook, only to discover that the files are corrupted. Not giving up hope, Kat suggests bringing the only remaining existence of the day's hard work to a mentor to be recovered.  You open the door to leave, and hesitate, wondering which direction you should leave, left or right. You sense movement to your left(North), and see a menacing Austin Powers cardboard cutout to your right(South). Which way do you choose?");
 		// textPanel.add(output, BorderLayout.CENTER);
 		output.setLineWrap(true);
 		output.setWrapStyleWord(true);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		// scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		textPanel.add(scroll, BorderLayout.CENTER);
 
 		input = new JTextField("Enter Command");
-		input.setPreferredSize(new Dimension(600, 20));
+		input.setPreferredSize(new Dimension(600, 30));
 		// input.
 		// textPanel.setLayout(new BorderLayout());
 		textPanel.add(input, BorderLayout.PAGE_START);
@@ -98,7 +98,7 @@ public class Runner extends JFrame implements ActionListener
 		enter.setActionCommand("Submit");
 		enter.addActionListener(this);
 		enter.setFocusable(false);
-		enter.setPreferredSize(new Dimension(75, 50));
+		enter.setPreferredSize(new Dimension(75, 30));
 		textPanel.add(enter, BorderLayout.LINE_END);
 
 		foodLevels = new JPanel();
@@ -220,6 +220,10 @@ public class Runner extends JFrame implements ActionListener
 					picture.setIcon(new ImageIcon(wPic));
 					picture.setPreferredSize(new Dimension(800, 600));
 					sceneSix();
+				}
+				else if (result && scene == SceneNumber.SEVEN)
+				{
+					sceneSeven();
 				}
 			}
 		}
@@ -534,7 +538,7 @@ public class Runner extends JFrame implements ActionListener
 				output.setText("You duck back out to the battle. You manage to fend them off with your weapon. They still have the flash drive though! You can now proceed(north)");
 				try
 				{
-					wPic = ImageIO.read(this.getClass().getResource("_02Nerf Fight.jpg"));
+					wPic = ImageIO.read(this.getClass().getResource("nerd fight.jpg"));
 
 				}
 				catch (IOException e1)
@@ -584,17 +588,18 @@ public class Runner extends JFrame implements ActionListener
 					}
 					picture.setIcon(new ImageIcon(wPic));
 					picture.setPreferredSize(new Dimension(800, 600));
-					if (cmd.isCommand(s.substring(0, s.indexOf(" "))))
-					{
-						if ((cmd.getCommand().equalsIgnoreCase("approach")) && s.substring(s.indexOf(" ") + 1, s.length()).equalsIgnoreCase("twig"))
-							scene = SceneNumber.SEVEN;
-							sceneSeven();
-					}
+					cmd.isCommand(s.substring(0, s.indexOf(" ")));
+				}
+				else if ((cmd.getCommand().equalsIgnoreCase("approach")) && s.substring(s.indexOf(" ") + 1, s.length()).equalsIgnoreCase("twig"))
+				{
+					scene = SceneNumber.SEVEN;
+					sceneSeven();
 				}
 				else
 				{
 					output.setText(s.substring(s.indexOf(" "), s.length()) + " is not a valid action!");
 				}
+
 			}
 		}
 	}
@@ -602,6 +607,17 @@ public class Runner extends JFrame implements ActionListener
 	public void sceneSeven()
 	{
 		output.setText("You look around confused as to where to go next. If only you had an internet-connected device that could access the online map of the Acquia Center. The room next to you has an iPad mounted to the external wall, but perhaps the room itself contains something running a superior operating system.");
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("_05 Map.jpg"));
+
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800, 600));
 		if (cmd.isCommand(s.substring(0, s.indexOf(" "))))
 		{
 			if (s.indexOf(" ") != -1)
@@ -610,7 +626,7 @@ public class Runner extends JFrame implements ActionListener
 				{
 					hasTakenTwig = true;
 					p.addItem("ipad");
-					output.setText("An ipad is added to your inventory. You proceed to north (to pidgin hall)");
+					output.setText("An ipad is added to your inventory. You proceed to north to Pidgin Hall");
 					scene = SceneNumber.EIGHT;
 					try
 					{
@@ -681,7 +697,7 @@ public class Runner extends JFrame implements ActionListener
 		}
 		else
 		{
-			return "Your WiFi reception is getting worse/";
+			return "Your WiFi reception is getting worse.";
 		}
 	}
 
