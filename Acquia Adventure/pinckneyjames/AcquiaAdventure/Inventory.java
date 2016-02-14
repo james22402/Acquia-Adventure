@@ -13,4 +13,17 @@ public class Inventory
 	{
 		return inventory[inventorySpot];
 	}
+	
+	public void setItemSlot(String name)
+	{
+		String[] s = getInventory();
+		for(int i = 0; i < s.length; i++)
+		{
+			if(s[i] == null)
+			{
+				s[i] = name;
+				break;
+			}
+		}
+	}
 }

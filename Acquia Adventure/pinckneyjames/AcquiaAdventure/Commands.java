@@ -26,6 +26,11 @@ public class Commands {
 			setCommand(cmd);
 			return true;
 		}
+		else if(cmd.equalsIgnoreCase("approach"))
+		{
+			setCommand(cmd);
+			return true;
+		}
 		else if(cmd.equalsIgnoreCase("enter"))
 		{
 			setCommand(cmd);
@@ -57,6 +62,11 @@ public class Commands {
 			return true;
 		}
 		else if(cmd.equalsIgnoreCase("drop"))
+		{
+			setCommand(cmd);
+			return true;
+		}
+		else if(cmd.equalsIgnoreCase("inventory"))
 		{
 			setCommand(cmd);
 			return true;
