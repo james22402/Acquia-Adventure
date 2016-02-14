@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 public class Runner extends JFrame implements ActionListener
@@ -31,21 +33,22 @@ public class Runner extends JFrame implements ActionListener
 	static JPanel foodLevels;
 	static JPanel map;
 	static Layout layout;
-	static JTextArea input;
+	static JTextField input;
 	static JTextArea output;
 	static JButton enter;
 	boolean result;
-	static JLabel picture;
+	static JLabel picture, picture1;
 	BufferedImage wPic;
 	Player p;
 	SceneNumber scene;
 	String s;
 	Commands cmd;
 	JScrollPane scroll;
+	public int apacheHallCount = 0;
 
 	enum SceneNumber
 	{
-		INTRO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELEVE, THIRTEEN
+		INTRO, ONE, CAM_ONE, CAM_TWO, CAM_THREE, CAM_FOUR, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELEVE, THIRTEEN
 	};
 
 	public Runner()
@@ -73,16 +76,17 @@ public class Runner extends JFrame implements ActionListener
 		output = new JTextArea("Welcome to Acquila!");
 		// textPanel.setLayout(new BorderLayout());
 		scroll = new JScrollPane(output);
-		scroll.setPreferredSize(new Dimension(600, 50));
-		output.setText("You have nearly finished your code on Eclipse when a wild Apache team member appears and throws an ACME anvil through your Lenovo laptop, before disappearing into the darkness of the hallway. Slightly disappointed you remember that James recently backed up your code to a Sandisk flash drive.  Encouraged, you plug the drive into an Asus chromebook, only to discover that the files are corrupted. Not giving up hope, Kat suggests bringing the only remaining existence of the day's hard work to a mentor to be recovered.  You open the door to leave, and hesitate, wondering which direction you should leave, left or right. You sense movement to your left, and see a menacing Austin Powers cardboard cutout to your right. Which way do you choose?");
+		scroll.setPreferredSize(new Dimension(600, 100));
+		output.setText("You have nearly finished your code on Eclipse when a wild Apache team member appears and throws an ACME anvil through your Lenovo laptop, before disappearing into the darkness of the hallway. Slightly disappointed you remember that James recently backed up your code to a Sandisk flash drive.  Encouraged, you plug the drive into an Asus chromebook, only to discover that the files are corrupted. Not giving up hope, Kat suggests bringing the only remaining existence of the day's hard work to a mentor to be recovered.  You open the door to leave, and hesitate, wondering which direction you should leave, left or right. You sense movement to your left(North), and see a menacing Austin Powers cardboard cutout to your right(South). Which way do you choose?");
 		//textPanel.add(output, BorderLayout.CENTER);
 		output.setLineWrap(true);
 		output.setWrapStyleWord(true);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		textPanel.add(scroll, BorderLayout.CENTER);
 
-		input = new JTextArea("Enter Command");
-		input.setPreferredSize(new Dimension(600, 50));
+		input = new JTextField("Enter Command");
+		input.setPreferredSize(new Dimension(600, 20));
+		//input.
 		// textPanel.setLayout(new BorderLayout());
 		textPanel.add(input, BorderLayout.PAGE_START);
 		output.setEditable(false);
@@ -91,7 +95,7 @@ public class Runner extends JFrame implements ActionListener
 		enter.setActionCommand("Submit");
 		enter.addActionListener(this);
 		enter.setFocusable(false);
-		enter.setPreferredSize(new Dimension(75, 100));
+		enter.setPreferredSize(new Dimension(75, 50));
 		textPanel.add(enter, BorderLayout.LINE_END);
 
 		foodLevels = new JPanel();
@@ -102,17 +106,7 @@ public class Runner extends JFrame implements ActionListener
 		map.setVisible(true);
 		map.setBackground(Color.decode("#87ff1f")); // Green
 
-		try
-		{
-			wPic = ImageIO.read(this.getClass().getResource("Hauser.jpg"));
-		}
-		catch (IOException e)
-		{
-
-		}
-
-		picture = new JLabel(new ImageIcon(wPic));
-		imagePanel.add(picture);
+		
 
 		p = new Player();
 		p.setLocation("Tesla");
@@ -120,6 +114,18 @@ public class Runner extends JFrame implements ActionListener
 		scene = SceneNumber.ONE;
 
 		cmd = new Commands();
+		
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("_0 Intro.jpg"));
+			picture = new JLabel(new ImageIcon(wPic));
+			picture.setPreferredSize(new Dimension(800,600));
+			imagePanel.add(picture);
+		}
+		catch (IOException e)
+		{
+
+		}
 	}
 
 	public static void main(String[] args)
@@ -141,13 +147,31 @@ public class Runner extends JFrame implements ActionListener
 			{
 				result = cmd.isCommand(s.substring(0, s.indexOf(" ")));
 				// output.setText("" + result);
-				if (result && scene == SceneNumber.ONE)
+				if (result && scene == SceneNumber.ONE && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
 				{
 					sceneOne();
+				}
+				else if (result && scene == SceneNumber.ONE && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
+				{
+					output.setText("You smell a nice cheese pizza back the way you came. Of course you could always continue going straight(South).");
+					camHall();
 				}
 				else if (result && scene == SceneNumber.TWO)
 				{
 					sceneTwo();
+				}
+				else if (result && scene == SceneNumber.CAM_ONE)
+				{
+					camHall2();
+				}
+				else if(result && scene == SceneNumber.CAM_TWO)
+				{
+					output.setText("An angry SQuirreL blocks your way. Too bad, looks like you'll have to go back the way you came (North).");
+					camHall3();
+				}
+				else if(result && scene == SceneNumber.CAM_THREE)
+				{
+					camHall3();
 				}
 			}
 			else
@@ -161,19 +185,33 @@ public class Runner extends JFrame implements ActionListener
 
 	public void sceneOne()
 	{
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("_01Hallway One.jpg"));
+			
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800,600));
+		
 		if (cmd.isCommand(s.substring(0, s.indexOf(" "))) && p.getLocation().equals("Tesla"))
 		{
 			if (s.indexOf(" ") != -1)
 			{
 				if ((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
 				{
-					output.setText("Text to talk to Mentor Can go North/South");
+					output.setText("You are in the Apache Hall. You can either go towards the Bitcoin room(North), or back to the Tesla Room(South). There is also a Mentor standing near a desk, that looks like he has nothing to do.");
 					scene = SceneNumber.TWO;
 					p.setLocation("apacheHall");
+					//apacheHallCount++;
 				}
 				else if ((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
 				{
-					output.setText("Going to opposite way/Cameron's dead body idea");
+					scene = SceneNumber.CAM_ONE;
+					p.setLocation("South Hall");
 				}
 				else
 				{
@@ -197,34 +235,181 @@ public class Runner extends JFrame implements ActionListener
 				
 				if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
 				{
-					output.setText("Text to go back to Tesla Room N/S");
+					output.setText("You are in the Tesla Meeting Room. You can either go towards the Apache Room(North) or towards the abandoned part of the office.");
 					scene = SceneNumber.ONE;
+					try
+					{
+						wPic = ImageIO.read(this.getClass().getResource("_01Hallway One.jpg"));
+						
+					}
+					catch (IOException e1)
+					{
+						System.out.print("Catch");
+					}
 				}
 				else if(cmd.getCommand().equalsIgnoreCase("talk"))
 				{
 					if(s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("mentor"))
 					{
-						output.setText("Finding a mentor willing to help, he takes the flash drive and, using his mad tech skills, fixes all the things. Before even getting a chance to break out into cheers, a second wild Apache team member appears, grabs the drive, and flees.");
-						
-						triggerApacheEvent();
+						output.setText("Finding a mentor willing to help, he takes the flash drive and, using his mad tech skills, fixes all the things. Before even getting a chance to break out into cheers, a second wild Apache team member appears, grabs the drive, and flees. Chase them! (North)");
+						try
+						{
+							wPic = ImageIO.read(this.getClass().getResource("MentorPhoto.jpg"));
+							
+						}
+						catch (IOException e1)
+						{
+							System.out.print("Catch");
+						}
+						picture.setIcon(new ImageIcon(wPic));
+						picture.setPreferredSize(new Dimension(800,600));
 					}
+					
+				}
+				else if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
+				{
+					output.setText("Incredibly vexed, you run after the thief. But suddenly, a battalion of intimidating Apache Nerf warriors appears, covering the thief’s escape. Do you charge blindly into the midst of the small army (North), or dive into the nearby room (Bitcoin) for cover?");
+					triggerApacheEvent();
+					apacheHallCount++;
 				}
 				else
 				{
 					output.setText(s.substring(s.indexOf(" "), s.length()) + " is not a valid action!");
 				}
 			}
-			else
+			else if(cmd.isCommand(s.substring(0, s.indexOf(" "))) && p.getLocation().equals("apacheHall") && apacheHallCount >= 2)
 			{
-				result = cmd.isCommand(s);
-				output.setText("" + result);
+				output.setText("You are in the Apache Hall. You can either go towards the Bitcoin room(North), or back to the Tesla Room(South). There is also a Mentor standing near a desk, that looks like he has nothing to do.");
 			}
 		}
 	}
 	
 	public void triggerApacheEvent()
 	{
-		output.setText("HAHAHAHA! Take that!");
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("_02Nerf Fight.jpg"));
+			
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800,600));
 		//Apache Event Will be all text
+	}
+	
+	public void camHall()
+	{
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("2Hallway 1.jpg"));
+			
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800,600));
+		//output.setText(p.getLocation());
+		if (cmd.isCommand(s.substring(0, s.indexOf(" "))) && p.getLocation().equals("South Hall"))
+		{
+			if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
+			{
+				try
+				{
+					wPic = ImageIO.read(this.getClass().getResource("2Hallway 2.jpg"));
+					
+				}
+				catch (IOException e1)
+				{
+					System.out.print("Catch");
+				}
+				picture.setIcon(new ImageIcon(wPic));
+				picture.setPreferredSize(new Dimension(800,600));
+				p.setLocation("South Hall2");
+				scene = SceneNumber.CAM_TWO;
+				output.setText("You think you catch sight of a hungry Jaguar in front of you. Best advice, turn tale and run. Or, you could be stupid and go straight(South)." + p.getLocation());
+			}
+			else if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
+			{
+				scene = SceneNumber.ONE;
+				p.setLocation("apacheHall");
+			}
+		}
+		else if(p.getLocation().equals("Tesla"))
+		{
+			p.setLocation("South Hall");
+		}
+	}
+	
+	public void camHall2()
+	{
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("2Hallway 2.jpg"));
+			
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800,600));
+		if (cmd.isCommand(s.substring(0, s.indexOf(" "))) && p.getLocation().equals("South Hall"))
+		{
+			if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
+			{
+				p.setLocation("South Hall2");
+				scene = SceneNumber.CAM_THREE;
+				
+				camHall3();
+			}
+			else if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
+			{
+				scene = SceneNumber.ONE;
+				p.setLocation("apacheHall");
+			}
+		}
+		else if(p.getLocation().equals("South Hall2"))
+		{
+			p.setLocation("South Hall3");
+		}
+	}
+	
+	public void camHall3()
+	{
+		try
+		{
+			wPic = ImageIO.read(this.getClass().getResource("2Hallway 3.jpg"));
+			
+		}
+		catch (IOException e1)
+		{
+			System.out.print("Catch");
+		}
+		picture.setIcon(new ImageIcon(wPic));
+		picture.setPreferredSize(new Dimension(800,600));
+		if (cmd.isCommand(s.substring(0, s.indexOf(" "))) && p.getLocation().equals("South Hall3"))
+		{
+			if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("south"))
+			{
+				p.setLocation("South Hall2");
+				scene = SceneNumber.CAM_THREE;
+				//camHall2();
+			}
+			else if((cmd.getCommand().equalsIgnoreCase("enter")) && s.substring(s.indexOf(" ")+1, s.length()).equalsIgnoreCase("north"))
+			{
+				scene = SceneNumber.ONE;
+				output.setText("You are in the Apache Hall. You can either go towards the Bitcoin room(North), or back to the Tesla Room(South). There is also a Mentor standing near a desk, that looks like he has nothing to do." + p.getLocation());
+				p.setLocation("Tesla");
+			}
+		}
+		else if(p.getLocation().equals("South Hall2"))
+		{
+			p.setLocation("South Hall3");
+		}
 	}
 }
