@@ -2,6 +2,14 @@ package pinckneyjames.AcquiaAdventure;
 
 public class Twig extends ConferenceRoom {
 
+	/**
+	 * Items:			Good iPad mini, 	  Great Tango Tablet, Bad Nokia Brick 
+	 * Interactables:	Rip off outside wall  drawer (Look in)    bag (look in)
+	 * Enemies: N/A
+	 * Exits: leave Room
+	 */
+	
+	
 	public Twig() {
 		// TODO Auto-generated constructor stub
 	}

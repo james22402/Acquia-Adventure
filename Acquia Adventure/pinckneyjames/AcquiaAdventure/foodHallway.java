@@ -3,7 +3,10 @@ package pinckneyjames.AcquiaAdventure;
 public class foodHallway extends ConferenceRoom {
 	
 	/**
-	 * 
+	 * Items: Junk Food, Box of Granola Bars
+	 * Interactables: Chair (under), bag (in)
+	 * Enemies: N/A
+	 * Exits: North and South and Twig Room
 	 */
 
 	public foodHallway() {

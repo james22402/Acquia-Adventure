@@ -2,6 +2,14 @@ package pinckneyjames.AcquiaAdventure;
 
 public class Pidgin extends ConferenceRoom {
 
+	/**
+	 * Items: 			N/A
+	 * Interactables:	Bean Bag (Sleep on), Old Coffee
+	 * Enemies: N/A
+	 * Exits: leave Room
+	 */
+	
+	
 	public Pidgin() {
 		// TODO Auto-generated constructor stub
 	}

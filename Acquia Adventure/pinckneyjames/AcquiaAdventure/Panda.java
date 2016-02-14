@@ -1,6 +1,13 @@
 package pinckneyjames.AcquiaAdventure;
 
 public class Panda extends ConferenceRoom {
+	
+	/**
+	 * Items: 		  Bad Charging Cable, Good Pistol, Great Rifle
+	 * Interactables: Table				  Chair		   Recycling Bin
+	 * Enemies: N/A
+	 * Exits: Leave Room
+	 */
 
 	public Panda() {
 		// TODO Auto-generated constructor stub

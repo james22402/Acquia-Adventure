@@ -1,6 +1,14 @@
 package pinckneyjames.AcquiaAdventure;
 
 public class Moodle extends ConferenceRoom {
+	
+	/**
+	 * Items: N/A
+	 * Interactables: N/A
+	 * Enemies: Apache
+	 * Exits: N/A
+	 */
+	
 
 	public Moodle() {
 		// TODO Auto-generated constructor stub

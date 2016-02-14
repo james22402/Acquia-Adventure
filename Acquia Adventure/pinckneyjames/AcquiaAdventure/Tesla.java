@@ -16,24 +16,32 @@ public class Tesla extends ConferenceRoom {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Tesla(String[] objects) {
-		super(objects);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Tesla(String[] objects, String[] Interactables) {
-		super(objects, Interactables);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Tesla(String[] objects, String[] Interactables, String[] Enemies) {
-		super(objects, Interactables, Enemies);
-		// TODO Auto-generated constructor stub
-	}
-
 	public Tesla(String[] objects, String[] Interactables, String[] Enemies, String[] Exits) {
 		super(objects, Interactables, Enemies, Exits);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public static String[] getItems()
+	{
+		String[] s = null;
+		return s;
+	}
+	
+	public static String[] getInteractables()
+	{
+		String[] s = null;
+		return s;
+	}
+	
+	public static String[] getEnemies()
+	{
+		String[] s = null;
+		return s;
+	}
+	
+	public static String[] getExits()
+	{
+		String[] s = {"north", "south"};
+		return s;
 	}
 
 }

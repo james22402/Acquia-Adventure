@@ -2,6 +2,15 @@ package pinckneyjames.AcquiaAdventure;
 
 public class Python extends ConferenceRoom {
 
+	/**
+	 *  Items: N/A
+	 *  Interactables: N/A
+	 *  Enemies: N/A
+	 *  Exits: Leave Room
+	 *  
+	 *  Random chance to find the holy grail
+	 */
+	
 	public Python() {
 		// TODO Auto-generated constructor stub
 	}
